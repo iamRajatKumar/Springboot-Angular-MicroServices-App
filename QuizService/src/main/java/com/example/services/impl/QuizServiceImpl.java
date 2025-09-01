@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.entities.Quiz;
 import com.example.repository.QuizRepository;
-import com.example.services.QuestionClient;
+// import com.example.services.QuestionClient;
 import com.example.services.QuizService;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class QuizServiceImpl implements QuizService{
 
     private QuizRepository quizRepository;
 
-    private QuestionClient questionClient;
+    // private QuestionClient questionClient;
 
     @Override
     public Quiz add(Quiz quiz) {
@@ -27,20 +27,22 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public List<Quiz> get() {
-        List<Quiz> quizzes = quizRepository.findAll();
+        return quizRepository.findAll();
+        // List<Quiz> quizzes = quizRepository.findAll();
 
-        List<Quiz> newQuizList = quizzes.stream().map(quiz -> {
-            quiz.setQuestion(questionClient.getQuestionOfQuiz(quiz.getId()));
-        return quiz;
-        }).collect(Collectors.toList());
-        return newQuizList;
+        // List<Quiz> newQuizList = quizzes.stream().map(quiz -> {
+        //     quiz.setQuestion(questionClient.getQuestionOfQuiz(quiz.getId()));
+        // return quiz;
+        // }).collect(Collectors.toList());
+        // return newQuizList;
     }
 
     @Override
     public Quiz get(Long id) {
-        Quiz quiz = quizRepository.findById(id).orElseThrow( ()-> new RuntimeException("Quiz not Found!"));
-        quiz.setQuestion(questionClient.getQuestionOfQuiz(quiz.getId()));
-        return quiz;
+        return quizRepository.findById(id).orElseThrow( ()-> new RuntimeException("Quiz not Found!"));
+        // Quiz quiz = quizRepository.findById(id).orElseThrow( ()-> new RuntimeException("Quiz not Found!"));
+        // quiz.setQuestion(questionClient.getQuestionOfQuiz(quiz.getId()));
+        // return quiz;
     }
 
 }

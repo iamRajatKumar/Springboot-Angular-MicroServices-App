@@ -24,6 +24,6 @@ public class Quiz {
     private Long Id;
     private String title;
 
-    // transient private List<Question> question;
+    transient private List<Question> question;
    
 }
