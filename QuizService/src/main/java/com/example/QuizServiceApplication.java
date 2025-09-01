@@ -2,10 +2,10 @@ package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+// import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients
+// @EnableFeignClients
 //feign Client is a Rest Client
 public class QuizServiceApplication {
 
