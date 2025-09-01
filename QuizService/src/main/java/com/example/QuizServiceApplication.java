@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
+//feign Client is a Rest Client
 public class QuizServiceApplication {
 
 	public static void main(String[] args) {
