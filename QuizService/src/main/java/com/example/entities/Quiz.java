@@ -1,6 +1,6 @@
 package com.example.entities;
 
-// import java.util.List;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +24,7 @@ public class Quiz {
     private Long Id;
     private String title;
 
-    // transient private List<Question> question;
+    //when we dont want to save data in database we have to use transient
+    transient private List<Question> question;
    
 }
