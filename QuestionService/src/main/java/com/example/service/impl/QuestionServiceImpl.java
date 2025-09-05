@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.entities.Options;
 import com.example.entities.Question;
 import com.example.repository.QuestionRepository;
 import com.example.service.QuestionService;
@@ -17,8 +18,18 @@ public class QuestionServiceImpl implements QuestionService{
     private QuestionRepository questionRepository;
 
     //Question create without option
+    // @Override
+    // public Question create(Question question) {
+    //     return questionRepository.save(question);
+    // }
+
     @Override
     public Question create(Question question) {
+        if(question.getOptions() != null){
+            for(Options option: question.getOptions()){
+                option.setQuestion(question);
+            }
+        }
         return questionRepository.save(question);
     }
 
