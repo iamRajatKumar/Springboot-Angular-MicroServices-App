@@ -13,6 +13,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AboutComponent } from './components/about/about.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   providers: [
     provideClientHydration(withEventReplay())
