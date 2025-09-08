@@ -1,1 +1,28 @@
-<p>question-form works!</p>
+<h2>Create Question</h2>
+<form (ngSubmit) ="onSubmit()">
+    <div class="mb-3">
+
+        <label class="form-label">Question Text</label>
+        <input type="text" class="form-control" [(ngModel)]="question.question" name="question" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Quiz Id</label>
+        <input type="number" class="form-control" [(ngModel)]="question.quizId" name="quizid" required>
+    </div>
+
+<!--  options -->
+    <div class="mt-2" *ngFor="let opt of question.options; let i = index"> 
+        <label class="form-label">Option {{i + 1}} :</label>
+        <input class="option" type="text" [(ngModel)]="opt.text" name="opt{{1}}" required/>
+
+        <input class="radio" type="radio" name="correct" [value]="1" [(ngModel)]="selectedCorrectIndex"/>
+        <label class="correct">correct</label>
+        <button class="btn btn-danger mybtn" type="button" (click)="removeOption(i)"> Remove </button>
+
+    </div>
+    <button class="btn btn-warning mt-2" type="button" (click)="addOption()">Add Option</button>
+
+        <br/> <br/>
+        <button type="submit" class="btn btn-success">Save Question</button>
+   </form>

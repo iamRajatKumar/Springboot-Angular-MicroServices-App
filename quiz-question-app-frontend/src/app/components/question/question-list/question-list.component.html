@@ -1,1 +1,10 @@
-<p>question-list works!</p>
+<h2> All Questions</h2>
+<div class="mb-3">
+    <a routerLink="/question/add" class="btn btn-primary">Add Question</a>
+</div>
+
+<ul class="list-group">
+    <li *ngFor="let q of questions" class="list-group-item">
+        {{ q.question }} (Quiz ID: {{ q.quizId }})
+    </li>
+</ul>

@@ -1,1 +1,8 @@
-<p>quiz-form works!</p>
+<h2> Create Quiz </h2>
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label for="title" class="form-label">Quiz Title</label>
+    <input type="text" class="form-control" id="title" [(ngModel)]="quiz.title" name="title" required>
+  </div>
+  <button type="submit" class="btn btn-success">Save Quiz</button>
+</form>

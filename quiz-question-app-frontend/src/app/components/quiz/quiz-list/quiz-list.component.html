@@ -1,1 +1,10 @@
-<p>quiz-list works!</p>
+<h2>All Quizzes</h2>
+<div class="mb-3">
+    <a routerLink="/quiz/add" class="btn btn-primary">Create Quiz</a>
+</div>
+
+<div *ngFor="let i of quizzes" class="card mb-3 p-3">
+    <h4>{{ i.title }}</h4>
+    <p><strong>Question: </strong></p>
+
+    

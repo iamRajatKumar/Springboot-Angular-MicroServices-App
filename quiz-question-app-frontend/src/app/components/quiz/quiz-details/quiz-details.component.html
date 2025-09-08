@@ -1,1 +1,22 @@
-<p>quiz-details works!</p>
+<div *ngIf="quiz">
+    <h2>{{ quiz.title }}</h2>
+    <h4>Question</h4>
+
+    <br>
+    <div *ngIf="question.length > 0; else noQuestion">
+        <div *ngFor="let q of question">
+            <p><Strong> Q: </Strong> {{q.question}}</p>
+
+            <div *ngFor="let opt of q.options">
+                <label>
+                    <input type="radio" name="question-{{q.questionId}}" (change)="checkAnswer(opt.correct)"/>
+                    {{opt.text}}
+                </label>
+            </div>
+            <br>
+        </div>
+    </div>
+    <ng-template #noQuestion>
+        <h2 class="text-center text-muted">No questions available for this quiz.</h2>
+    </ng-template>
+</div>
