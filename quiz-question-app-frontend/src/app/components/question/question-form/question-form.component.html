@@ -14,9 +14,9 @@
 <!--  options -->
     <div class="mt-2" *ngFor="let opt of question.options; let i = index"> 
         <label class="form-label">Option {{i + 1}} :</label>
-        <input class="option" type="text" [(ngModel)]="opt.text" name="opt{{1}}" required/>
+        <input class="option" type="text" [(ngModel)]="opt.text" name="opt{{i}}" required/>
 
-        <input class="radio" type="radio" name="correct" [value]="1" [(ngModel)]="selectedCorrectIndex"/>
+        <input class="radio" type="radio" name="correct" [value]="i" [(ngModel)]="selectedCorrectIndex"/>
         <label class="correct">correct</label>
         <button class="btn btn-danger mybtn" type="button" (click)="removeOption(i)"> Remove </button>
 
