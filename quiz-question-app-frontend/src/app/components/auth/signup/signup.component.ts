@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -6,6 +8,25 @@ import { Component } from '@angular/core';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
-export class SignupComponent {
 
+export class SignupComponent {
+  username = '';
+  email = '';
+  password = '';
+  message = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSignup() {
+    this.authService.signup({ username: this.username, password: this.password, email: this.email }).subscribe({
+      next: () => {
+        this.message = 'Signup successful! Please login.';
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.message = 'Signup failed. Try again.';
+      }
+    });
+  }
 }
+
