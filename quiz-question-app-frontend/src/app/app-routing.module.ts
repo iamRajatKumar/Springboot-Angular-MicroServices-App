@@ -6,9 +6,11 @@ import { QuizDetailsComponent } from './components/quiz/quiz-details/quiz-detail
 import { QuizFormComponent } from './components/quiz/quiz-form/quiz-form.component';
 import { QuestionListComponent } from './components/question/question-list/question-list.component';
 import { AboutComponent } from './components/about/about.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 const routes: Routes = [
-  {path: "", component:QuizListComponent},
+  // {path: "", component:QuizListComponent},
+  {path: "", component: LoginComponent},
   {path: "quiz/add", component: QuizFormComponent},
   {path: "quiz/:id", component: QuizDetailsComponent},
   {path: "question", component: QuestionListComponent },
