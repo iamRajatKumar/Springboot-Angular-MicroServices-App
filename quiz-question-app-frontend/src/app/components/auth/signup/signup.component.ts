@@ -29,4 +29,4 @@ export class SignupComponent {
     });
   }
 }
-
+//error in the code Signup not working we will fix it later
