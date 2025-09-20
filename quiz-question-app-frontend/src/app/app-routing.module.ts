@@ -20,7 +20,7 @@ import { AuthGuard } from './guards/auth-guard.guard';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'quiz', pathMatch: 'full' },
+  { path: '', redirectTo: 'quiz', pathMatch: 'full' }, //error in routing
 
   // Auth routes
   { path: 'login', component: LoginComponent },
