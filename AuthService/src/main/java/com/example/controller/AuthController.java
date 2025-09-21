@@ -23,14 +23,12 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(
-            authService.signup(
+    public ResponseEntity<Map<String, String>> signup(@RequestBody Map<String, String> request) {
+        String message = authService.signup(
                 request.get("username"),
                 request.get("password"),
-                request.get("email")   // ✅ email included
-            )
-        );
+                request.get("email"));
+        return ResponseEntity.ok(Map.of("message", message)); // ✅ return JSON
     }
 
     @PostMapping("/login")

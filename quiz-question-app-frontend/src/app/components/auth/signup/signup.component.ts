@@ -18,15 +18,20 @@ export class SignupComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSignup() {
-    this.authService.signup({ username: this.username, password: this.password, email: this.email }).subscribe({
-      next: () => {
-        this.message = 'Signup successful! Please login.';
-        this.router.navigate(['/login']);
-      },
-      error: () => {
-        this.message = 'Signup failed. Try again.';
-      }
-    });
-  }
+    this.authService.signup({ 
+      username: this.username, 
+      password: this.password, 
+      email: this.email 
+        }).subscribe({
+        next: (res) => {
+          alert(res.message || 'Signup successful! Please login.');
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.log(err);
+          this.message = 'Signup failed. Try again.';
+        }
+      });
+    }
 }
 //error in the code Signup not working we will fix it later
