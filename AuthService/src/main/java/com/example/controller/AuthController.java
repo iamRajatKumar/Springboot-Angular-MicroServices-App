@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.service.AuthService;
 import com.example.service.JwtService;
 
@@ -25,7 +24,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(authService.signup(request.get("username"), request.get("password")));
+        return ResponseEntity.ok(
+            authService.signup(
+                request.get("username"),
+                request.get("password"),
+                request.get("email")   // ✅ email included
+            )
+        );
     }
 
     @PostMapping("/login")
@@ -38,5 +43,4 @@ public class AuthController {
     public String getJwtSecret() {
         return jwtService.getBase64Secret();
     }
-
 }

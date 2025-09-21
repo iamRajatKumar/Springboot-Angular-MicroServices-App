@@ -19,12 +19,13 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public String signup(String username, String password) {
+    public String signup(String username, String password, String email) {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
         }
         User user = new User();
         user.setUsername(username);
+        user.setEmail(email);  // ✅ Save email
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
         return "Signup successful!";
@@ -39,4 +40,3 @@ public class AuthService {
         return jwtService.generateToken(user.getUsername());
     }
 }
-

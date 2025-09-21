@@ -9,12 +9,21 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
+
+    // 🚫 Skip token for login & signup endpoints
+    if (req.url.includes('/auth/login') || req.url.includes('/auth/signup')) {
+      return next.handle(req);
+    }
+
     if (token) {
       const cloned = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + token)
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
       });
       return next.handle(cloned);
     }
+
     return next.handle(req);
   }
 }
