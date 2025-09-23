@@ -51,7 +51,7 @@ export class SignupComponent {
           {
             duration: 3000,
             panelClass: ['snackbar-error'],
-            horizontalPosition: 'right',
+            horizontalPosition: 'center',
             verticalPosition: 'top'
           }
         );
