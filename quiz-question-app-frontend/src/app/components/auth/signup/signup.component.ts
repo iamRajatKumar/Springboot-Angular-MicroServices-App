@@ -7,16 +7,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-signup',
   standalone: false,
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  styleUrls: ['./signup.component.css']  // ✅ corrected
 })
 
 export class SignupComponent {
   username = '';
   email = '';
   password = '';
-  message = '';
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSignup() {
     this.authService.signup({
@@ -24,23 +27,39 @@ export class SignupComponent {
       password: this.password,
       email: this.email
     }).subscribe({
-      next: (res) => {
-        this.snackBar.open(
-          res.message || 'Signup successful! Please login.',
+      next: () => {
+        const snackRef = this.snackBar.open(
+          'Signup successful! Please login.',
           'Close',
-          { duration: 3000, panelClass: ['snackbar-success'] }
+          {
+            duration: 3000,
+            panelClass: ['snackbar-success'],
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          }
         );
-        this.router.navigate(['/login']);
+
+        // ✅ redirect after snackbar closes
+        snackRef.afterDismissed().subscribe(() => {
+          this.router.navigate(['/login']);
+        });
       },
       error: () => {
         this.snackBar.open(
           'Signup failed. Try again.',
           'Close',
-          { duration: 3000, panelClass: ['snackbar-error'] }
+          {
+            duration: 3000,
+            panelClass: ['snackbar-error'],
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          }
         );
       }
     });
   }
+}
+
 
   //Normal code when we don't want to use snackbar
   // onSignup() {
@@ -59,5 +78,4 @@ export class SignupComponent {
   //       }
   //     });
   //   }
-}
 //All bugs fixed and snackbar added successfully
