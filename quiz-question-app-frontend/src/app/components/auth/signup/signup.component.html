@@ -1,4 +1,4 @@
-<div class="auth-container">
+<!-- <div class="auth-container">
   <h2>Signup</h2>
   <form (ngSubmit)="onSignup()">
     <div>
@@ -16,4 +16,40 @@
     <button type="submit">Signup</button>
    
   </form>
+</div> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card my-5">
+
+                <form (ngSubmit)="onSignup()" class="card-body cardbody-color p-lg-5">
+                    <h2 class="text-center text-dark mt-3">Register</h2>
+                    <div class="text-center">
+                        <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png"
+                            class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px"
+                            alt="profile">
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" [(ngModel)]="username" name="username" required class="form-control"
+                            placeholder="User Name">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" [(ngModel)]="email" name="email" required class="form-control"
+                            placeholder="123@xyz.com">
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" [(ngModel)]="password" name="password" class="form-control"
+                            placeholder="password">
+                    </div>
+                    <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Sign Up</button>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
