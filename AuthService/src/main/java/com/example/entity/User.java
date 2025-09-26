@@ -22,8 +22,13 @@ public class User {
 
     @Column(unique = true)
     private String username;
+
     private String email;
+    
     private String password;
-    private String role = "ROLE_USER"; // default role
+    
+    private String desctiption;
+    
+    private String profilepictureUrl;
 
 }
