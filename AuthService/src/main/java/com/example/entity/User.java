@@ -16,19 +16,23 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String username;
+    @Column(unique = true, nullable = false)
+    private String username;     // used as login identifier
 
+    private String name;
+
+    @Column(unique = true)
     private String email;
-    
+
     private String password;
-    
-    private String desctiption;
-    
-    private String profilepictureUrl;
+
+    private String description;
+
+    private String profilePictureUrl; // stores file URL/path
+
 
 }
