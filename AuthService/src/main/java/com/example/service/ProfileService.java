@@ -1,18 +1,17 @@
 package com.example.service;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.io.File;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.example.entity.User;
 import com.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class ProfileService {
@@ -26,50 +25,55 @@ public class ProfileService {
     private PasswordEncoder passwordEncoder;
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("User not found" + username));
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
-    
-    public User updateUserProfile(String username, String email, User updatedUser) {
+
+    public User updateUserProfile(String username, User updatedUser) {
         User user = getUserByUsername(username);
-        
-        if(updatedUser.getName() != null){
+
+        if (updatedUser.getName() != null) {
             user.setName(updatedUser.getName());
         }
-
-        user.setDescription(updatedUser.getDescription());
-
-        if(updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()){
+        if (updatedUser.getDescription() != null) {
+            user.setDescription(updatedUser.getDescription());
+        }
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
 
         return userRepository.save(user);
     }
 
-    public String uploadProfilePicture(String username, MultipartFile file ) {
+    public String uploadProfilePicture(String username, MultipartFile file) {
         User user = getUserByUsername(username);
 
         try {
             Files.createDirectories(Paths.get(UPLOAD_DIR));
-            String original= Path.of(file.getOriginalFilename() == null ? "file" : file.getOriginalFilename()).getFileName().toString();
-            String fileName = username + "_" + System.currentTimeMillis() + "_" + original;
+
+            String originalName = Path.of(file.getOriginalFilename() == null ? "file" : file.getOriginalFilename())
+                    .getFileName().toString();
+
+            String fileName = username + "_" + System.currentTimeMillis() + "_" + originalName;
             String filePath = UPLOAD_DIR + fileName;
-            file.transferTo(Paths.get(filePath));
-            String fileUrl = "/uploads/" + fileName;
+
+            file.transferTo(new File(filePath));
+
+            String fileUrl = "/uploads/" + fileName; // mapped in properties
             user.setProfilePictureUrl(fileUrl);
+
             userRepository.save(user);
             return fileUrl;
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Failed to upload profile picture", e);
-        }   
+        }
     }
 
-    // Delete picture file and clear URL column
     public void deleteProfilePicture(String username) {
         User user = getUserByUsername(username);
         String url = user.getProfilePictureUrl();
         if (url != null && !url.isBlank()) {
-            // expected url like "/uploads/xxx" -> map to uploads/xxx on disk
             String filePath = url.replaceFirst("^/+", ""); // remove leading slash
             File file = new File(filePath);
             if (file.exists()) {
@@ -79,6 +83,4 @@ public class ProfileService {
             userRepository.save(user);
         }
     }
-
-
 }
