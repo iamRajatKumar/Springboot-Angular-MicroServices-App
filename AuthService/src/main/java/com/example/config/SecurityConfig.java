@@ -23,7 +23,6 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll() // allow signup & login
-                // .requestMatchers("/profile/**").permitAll() // allow profile
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
