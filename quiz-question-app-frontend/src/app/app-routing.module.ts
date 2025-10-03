@@ -17,6 +17,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 // Other
 import { AboutComponent } from './components/about/about.component';
 import { AuthGuard } from './guards/auth-guard.guard';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,9 @@ const routes: Routes = [
 
   // About page
   { path: 'about', component: AboutComponent },
+
+  // Profile route
+  { path: 'profile', component:UserProfileComponent, canActivate: [AuthGuard] },
 
   // Fallback route
   { path: '**', redirectTo: 'quiz' }
