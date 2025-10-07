@@ -26,6 +26,8 @@ public class ProfileService {
        User existing = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
+        if (updatedData.getName() != null)
+            existing.setName(updatedData.getName());
         if (updatedData.getEmail() != null)
             existing.setEmail(updatedData.getEmail());
         if (updatedData.getPassword() != null)
