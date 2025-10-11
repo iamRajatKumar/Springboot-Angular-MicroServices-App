@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { User } from '../../models/user.model';
 import { UserProfileService } from '../../services/user-profile.service';
+import { AuthService } from '../../services/auth.service'; // ✅ Import AuthService
 
 @Component({
   selector: 'app-user-profile',
   standalone: false,
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent {
 
@@ -23,10 +24,20 @@ export class UserProfileComponent {
   selectedFile: File | null = null;
   message: string = '';
 
-  constructor(private profileService: UserProfileService) {}
+  constructor(
+    private profileService: UserProfileService,
+    private authService: AuthService // ✅ Inject AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.loadProfile();
+    const userId = this.authService.getUserId(); // ✅ Use helper to get logged-in user ID
+
+    if (!userId) {
+      this.message = 'Please log in to view your profile.';
+      return;
+    }
+
+    this.loadProfile(); // ✅ Only load profile if logged in
   }
 
   loadProfile(): void {
