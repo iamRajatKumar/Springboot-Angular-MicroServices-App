@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { User } from '../models/user.model'; // adjust import if needed
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,42 +15,45 @@ export class AuthService {
 
   // --- AUTH APIS ---
   login(user: User): Observable<any> {
-    this.clearToken(); // clear stale token before login
+    this.clearStorage();
     return this.http.post(`${this.baseUrl}/login`, user);
   }
 
   signup(user: User): Observable<any> {
-    this.clearToken(); // clear stale token before signup
+    this.clearStorage();
     return this.http.post(`${this.baseUrl}/signup`, user);
   }
 
-  // --- TOKEN HANDLING ---
-  saveToken(token: string): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('token', token);
-    }
+  // --- LOCAL STORAGE HANDLING ---
+  saveLoginData(response: any): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('userId', response.id);
+    localStorage.setItem('username', response.username);
   }
 
   getToken(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('token');
-    }
-    return null;
+    return localStorage.getItem('token');
   }
 
-  clearToken(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-    }
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
   }
 
-  // --- LOGOUT HANDLING ---
+  getUsername(): string | null {
+    return localStorage.getItem('username');
+  }
+
+  clearStorage(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+  }
+
   logout(): void {
-    this.clearToken();
-    this.router.navigate(['/login']); // ✅ redirect user to login page
+    this.clearStorage();
+    this.router.navigate(['/login']);
   }
 
-  // --- AUTH STATE ---
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
