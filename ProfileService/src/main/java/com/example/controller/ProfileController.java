@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +42,23 @@ public class ProfileController {
         return service.updateProfile(id, user);
     }
 
-    // ✅ Upload profile picture
+    // // ✅ Upload profile picture
+    // @PostMapping("/upload/{id}")
+    // public ResponseEntity<String> uploadProfilePicture(@PathVariable Long id,
+    // @RequestParam("file") MultipartFile file) {
+    // String url = service.uploadProfilePicture(id, file);
+    // return ResponseEntity.ok(url);
+    // }
+
     @PostMapping("/upload/{id}")
-    public ResponseEntity<String> uploadProfilePicture(@PathVariable Long id,
-                                                       @RequestParam("file") MultipartFile file) {
-        String url = service.uploadProfilePicture(id, file);
-        return ResponseEntity.ok(url);
+    public ResponseEntity<Map<String, String>> uploadProfilePicture(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) {
+
+        String filePath = service.uploadProfilePicture(id, file); // ✅ Correct method call
+        Map<String, String> response = new HashMap<>();
+        response.put("url", filePath);
+        return ResponseEntity.ok(response);
     }
 
     // ✅ Delete profile picture
