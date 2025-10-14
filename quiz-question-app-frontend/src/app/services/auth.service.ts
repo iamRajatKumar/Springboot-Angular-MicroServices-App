@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,16 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:8083/auth'; // API Gateway route
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  // ✅ Check if running in browser
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
 
   // --- AUTH APIS ---
   login(user: User): Observable<any> {
@@ -26,27 +36,40 @@ export class AuthService {
 
   // --- LOCAL STORAGE HANDLING ---
   saveLoginData(response: any): void {
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('userId', response.id);
-    localStorage.setItem('username', response.username);
+    if (this.isBrowser()) {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('userId', response.id);
+      localStorage.setItem('username', response.username);
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    if (this.isBrowser()) {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 
   getUserId(): string | null {
-    return localStorage.getItem('userId');
+    if (this.isBrowser()) {
+      return localStorage.getItem('userId');
+    }
+    return null;
   }
 
   getUsername(): string | null {
-    return localStorage.getItem('username');
+    if (this.isBrowser()) {
+      return localStorage.getItem('username');
+    }
+    return null;
   }
 
   clearStorage(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
+    if (this.isBrowser()) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('username');
+    }
   }
 
   logout(): void {
