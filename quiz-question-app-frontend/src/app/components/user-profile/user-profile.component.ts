@@ -71,24 +71,25 @@ export class UserProfileComponent {
     }
   }
 
-  uploadPicture(): void {
-    if (!this.selectedFile) {
-      this.message = 'Please select a file first.';
-      return;
-    }
-
-    this.profileService.uploadProfilePicture(this.selectedFile).subscribe({
-      next: (url: string) => {
-        this.user.profilePictureUrl = url;
-        this.message = 'Profile picture uploaded successfully!';
-        this.selectedFile = null;
-      },
-      error: (err) => {
-        console.error('Error uploading picture:', err);
-        this.message = 'Failed to upload picture.';
-      }
-    });
+ uploadPicture(): void {
+  if (!this.selectedFile) {
+    this.message = 'Please select a file first.';
+    return;
   }
+
+  this.profileService.uploadProfilePicture(this.selectedFile).subscribe({
+    next: (url: string) => {
+      this.user.profilePictureUrl = `${url}?t=${new Date().getTime()}`;
+      this.message = 'Profile picture uploaded successfully!';
+      this.selectedFile = null;
+    },
+    error: (err) => {
+      console.error('Error uploading picture:', err);
+      this.message = 'Failed to upload picture.';
+    }
+  });
+}
+
 
   deletePicture(): void {
     this.profileService.deleteProfilePicture().subscribe({
