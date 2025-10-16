@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../models/user.model';
+import { UserProfileService } from '../../services/user-profile.service';
 
 @Component({
   selector: 'app-header',
@@ -9,10 +11,33 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  user: User | null = null;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private profileService: UserProfileService,
+    private router: Router
+  ) {}
 
-  logout(): void {
+  ngOnInit(): void {
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.profileService.getProfile(+userId).subscribe({
+        next: (data) => {
+          // ✅ Append timestamp to avoid caching old image
+          this.user = {
+            ...data,
+            profilePictureUrl: data.profilePictureUrl
+              ? `${data.profilePictureUrl}?t=${new Date().getTime()}`
+              : ''
+          };
+        },
+        error: (err) => console.error('Error loading user:', err)
+      });
+    }
+  }
+
+    logout(): void {
     this.authService.logout();
     alert('You have been logged out successfully.');
     this.router.navigate(['/login']);
