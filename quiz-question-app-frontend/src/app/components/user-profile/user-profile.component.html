@@ -2,6 +2,16 @@
   <h2>User Profile</h2>
 
   <div *ngIf="user">
+
+    <h3>Profile Picture</h3>
+    <div *ngIf="user.profilePictureUrl">
+      <img [src]="'http://localhost:8083' + user.profilePictureUrl" alt="Profile Picture" class="profile-pic" />
+    </div>
+
+    <input type="file" (change)="onFileSelected($event)" />
+    <button (click)="uploadPicture()">Upload Picture</button>
+    <button *ngIf="user.profilePictureUrl" (click)="deletePicture()">Delete Picture</button>
+  <hr />
     <p><strong>Username:</strong> {{ user.username }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
 
@@ -18,15 +28,6 @@
   </div>
 
   <hr />
-
-  <h3>Profile Picture</h3>
-  <div *ngIf="user.profilePictureUrl">
-    <img [src]="'http://localhost:8083' + user.profilePictureUrl" alt="Profile Picture" class="profile-pic" />
-  </div>
-
-  <input type="file" (change)="onFileSelected($event)" />
-  <button (click)="uploadPicture()">Upload Picture</button>
-  <button *ngIf="user.profilePictureUrl" (click)="deletePicture()">Delete Picture</button>
 
   <p class="message">{{ message }}</p>
 </div>
