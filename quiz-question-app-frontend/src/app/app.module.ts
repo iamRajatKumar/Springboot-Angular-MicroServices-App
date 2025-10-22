@@ -13,7 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AboutComponent } from './components/about/about.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
@@ -40,11 +40,11 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     AppRoutingModule,
     FormsModule,
     RouterModule,
-    HttpClientModule,
     MatSnackBarModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
+    provideHttpClient(withFetch()),
    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } // Register the interceptor
   ],
   bootstrap: [AppComponent]
