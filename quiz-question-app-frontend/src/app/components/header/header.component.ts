@@ -10,8 +10,46 @@ import { UserProfileService } from '../../services/user-profile.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
+// export class HeaderComponent {
+//   user: User | null = null;
+
+//   constructor(
+//     public authService: AuthService,
+//     private profileService: UserProfileService,
+//     private router: Router
+//   ) {}
+
+//    ngOnInit(): void {
+//     if (this.authService.isLoggedIn()) {
+//       this.loadUserProfile();
+//     }
+//   }
+
+//   loadUserProfile(): void {
+//   this.profileService.getProfile().subscribe({
+//     next: (data) => {
+//       const backendUrl = 'http://localhost:8083'; 
+//       this.user = {
+//         ...data,
+//         profilePictureUrl: data.profilePictureUrl
+//           ? `${backendUrl}${data.profilePictureUrl}?t=${new Date().getTime()}`
+//           : ''
+//       };
+//     },
+//     error: (err) => console.error('Error loading user:', err)
+//   });
+// }
+
+//     logout(): void {
+//     this.authService.logout();
+//     alert('You have been logged out successfully.');
+//     this.router.navigate(['/login']);
+//   }
+// }
+
 export class HeaderComponent {
   user: User | null = null;
+  isDropdownOpen: boolean = false; // 👈 add this
 
   constructor(
     public authService: AuthService,
@@ -19,28 +57,36 @@ export class HeaderComponent {
     private router: Router
   ) {}
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.loadUserProfile();
     }
   }
 
   loadUserProfile(): void {
-  this.profileService.getProfile().subscribe({
-    next: (data) => {
-      const backendUrl = 'http://localhost:8083'; 
-      this.user = {
-        ...data,
-        profilePictureUrl: data.profilePictureUrl
-          ? `${backendUrl}${data.profilePictureUrl}?t=${new Date().getTime()}`
-          : ''
-      };
-    },
-    error: (err) => console.error('Error loading user:', err)
-  });
-}
+    this.profileService.getProfile().subscribe({
+      next: (data) => {
+        this.user = {
+          ...data,
+          profilePictureUrl: data.profilePictureUrl
+            ? `${data.profilePictureUrl}?t=${new Date().getTime()}`
+            : ''
+        };
+      },
+      error: (err) => console.error('Error loading user:', err)
+    });
+  }
 
-    logout(): void {
+  toggleDropdown(force?: boolean): void {
+    // hover passes true/false, click toggles
+    if (force !== undefined) {
+      this.isDropdownOpen = force;
+    } else {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    }
+  }
+
+  logout(): void {
     this.authService.logout();
     alert('You have been logged out successfully.');
     this.router.navigate(['/login']);
