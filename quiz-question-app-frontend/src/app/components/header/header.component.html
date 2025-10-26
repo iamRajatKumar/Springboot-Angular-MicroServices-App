@@ -15,7 +15,7 @@
 
   <li><a routerLink="/about">About</a></li>
 
-  <!-- Show Profile only if logged in -->
+  <!-- Show Profile only if logged in
   <li class="nav-profile" *ngIf="authService.isLoggedIn()">
     <a routerLink="/profile">
       <img
@@ -26,7 +26,28 @@
       />
       <span *ngIf="!user?.profilePictureUrl">Profile</span>
     </a>
-  </li>
+  </li> -->
+
+  <li class="nav-profile" *ngIf="authService.isLoggedIn()">
+  <div class="profile-dropdown" (mouseenter)="toggleDropdown(true)" (mouseleave)="toggleDropdown(false)">
+    <div class="profile-avatar-wrapper" (click)="toggleDropdown()">
+      <img
+        *ngIf="user?.profilePictureUrl"
+        [src]="user?.profilePictureUrl"
+        alt="Profile"
+        class="profile-avatar"
+      />
+      <span *ngIf="!user?.profilePictureUrl" class="profile-placeholder">👤</span>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu" *ngIf="isDropdownOpen">
+      <a routerLink="/profile" class="dropdown-item">Profile</a>
+      <a (click)="logout()" class="dropdown-item logout">Logout</a>
+    </div>
+  </div>
+</li>
+
 
   <!-- Show Login/Logout based on authentication -->
   <li *ngIf="!authService.isLoggedIn()">
